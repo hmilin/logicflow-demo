@@ -1,0 +1,71 @@
+@edge-color: #d0d0d0;
+@edge-color-hover: #d1bdff;
+
+@keyframes edge-selected {
+  0% {
+    stroke: @edge-color;
+  }
+
+  100% {
+    stroke: @edge-color-hover;
+  }
+}
+
+@keyframes edge-blur {
+  0% {
+    stroke: @edge-color-hover;
+  }
+
+  100% {
+    stroke: @edge-color;
+  }
+}
+
+.node-filter {
+  &:hover {
+    filter: drop-shadow(0 0 4px @primary-3);
+  }
+}
+
+.lf-text-tspan {
+  color: @text-color;
+}
+
+// 选区
+.lf-selection-select {
+  border: 2px dashed @primary-4;
+}
+
+// 选中区域
+.lf-multiple-select {
+  border: 2px dashed @primary-3;
+  box-shadow: 0 0 3px 0 @primary-2;
+}
+
+// 小地图
+.lf-mini-map {
+  top: revert !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: revert !important;
+  padding-top: 0;
+  background-color: #fff;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px 0 rgb(0 0 0 / 20%);
+  opacity: 0.75;
+
+  .lf-graph {
+    background-color: #fff;
+  }
+}
+
+.lf-mini-map-header,
+.lf-mini-map-close {
+  display: none;
+}
+
+.lf-minimap-viewport {
+  background-color: rgb(0 0 0 / 8%);
+  border: none;
+}

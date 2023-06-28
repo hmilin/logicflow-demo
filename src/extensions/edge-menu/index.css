@@ -1,0 +1,8 @@
+.lf-edge-menu {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.lf-edge-menu-item {
+  cursor: pointer;
+}

@@ -1,0 +1,49 @@
+.ant-collapse-borderless {
+  background-color: transparent;
+
+  > .ant-collapse-item {
+    border-bottom: none;
+
+    > .ant-collapse-header {
+      padding-left: 0;
+    }
+  }
+}
+
+.ant-input-group.ant-input-group-compact {
+  display: flex;
+
+  > :last-child {
+    flex: 1 1 0px;
+  }
+}
+
+.ant-form {
+  // 设置no-style属性不会显示验证器错误，通过css清除样式
+  .ant-form-item.no-style {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+}
+
+.ant-input-search > .ant-input-group > .ant-input {
+  height: 32px;
+}
+
+.ant-modal-title {
+  font-weight: @typography-title-font-weight;
+}
+
+// 在内部滚动的modal
+.scroll-inner-modal.ant-modal {
+  .ant-modal-content {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 140px);
+
+    .ant-modal-body {
+      flex: 1 1 auto;
+      overflow: auto;
+    }
+  }
+}
