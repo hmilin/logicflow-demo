@@ -123,5 +123,6 @@ export const nodeIDPrefixs: Record<StepTypes, string> = {
   [StepTypes.ServiceTask]: 'Activity',
   [StepTypes.ExclusiveGateway]: 'Gateway',
   [StepTypes.ScriptTask]: 'Activity',
+  [StepTypes.UserTask]: 'Activity',
   [StepTypes.Flow]: 'Flow',
 }
