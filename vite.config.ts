@@ -45,7 +45,7 @@ const config: UserConfigExport = {
     createHtmlPlugin({
       inject: {
         data: {
-          title: 'API编排',
+          title: 'LogicFlow Demo',
         },
       },
     }),
