@@ -6,7 +6,6 @@ import { getEdgeCenter, shortPolyPoints } from '~/utils/algorithm'
 import {
   StepTypes,
   anchorOffset,
-  anchorRadius,
   defaultNodeSize,
   nodeIDPrefixs,
   nodeSize,
@@ -84,8 +83,8 @@ export default class Layout {
       const points = edgeWithPosition.points
       const pointsLength = points.length
       // 起点和终点算上锚点和节点之间的距离
-      points[0].x += anchorOffset + anchorRadius - this.extraSpace / 2
-      points[pointsLength - 1].x -= anchorOffset + anchorRadius - this.extraSpace / 2
+      points[0].x += anchorOffset - this.extraSpace / 2
+      points[pointsLength - 1].x -= anchorOffset - this.extraSpace / 2
       // 以条件节点开始的线需要重新计算起点
       if (edge.sourceNodeId?.startsWith(nodeIDPrefixs[StepTypes.ExclusiveGateway])) {
         const p = this.getGatewayPointStart(edge.sourceNodeId, edge.sourceAnchorId!)
@@ -97,7 +96,7 @@ export default class Layout {
       // 当结束点被多次链接的时候，默认会铺开，所有结束节点都要重新计算位置
       const targetNodePosition = this.dagreGraph!.node(edge.targetNodeId)
       points[pointsLength - 1].x =
-        targetNodePosition.x - (targetNodePosition.width - this.extraSpace) / 2 - anchorRadius
+        targetNodePosition.x - (targetNodePosition.width - this.extraSpace) / 2
       points[pointsLength - 1].y = targetNodePosition.y
 
       edge.startPoint = points[0]

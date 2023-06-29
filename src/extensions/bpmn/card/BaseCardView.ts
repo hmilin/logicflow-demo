@@ -44,6 +44,7 @@ export default class BaseCardView extends HtmlNode {
   setHtml(rootEl: HTMLElement) {
     if (!this.isMounted) {
       this.isMounted = true
+      rootEl.parentElement!.setAttribute('class', 'node-filter')
       const node = document.createElement('div')
       node.style.width = `${this.props.model.width}px`
       node.style.height = `${this.props.model.height}px`

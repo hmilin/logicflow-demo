@@ -38,17 +38,12 @@ const emit = defineEmits(['edit', 'delete', 'clone'])
   position: relative;
   display: flex;
   flex-direction: column;
-  width: calc(100% - 8px);
-  height: calc(100% - 8px);
-  margin: 4px auto;
+  width: 100%;
+  height: 100%;
   line-height: @line-height-base;
   background-color: @component-background;
   border: 1px solid rgb(0 0 0 / 15%);
   border-radius: 8px;
-
-  &:hover {
-    box-shadow: 0 0 8px @primary-3;
-  }
 
   .node-card-header {
     display: flex;
