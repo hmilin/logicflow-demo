@@ -4,6 +4,8 @@
 
 [线上地址](http://logicflow.meiling.fun/)
 
+![demo](http://logicflow.meiling.fun/demo.png)
+
 ## 特性
 
 - [x] 基于 dagre 实现自动布局
