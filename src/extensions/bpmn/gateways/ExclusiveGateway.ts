@@ -20,18 +20,18 @@ export const getGatewayAnchor = (
 ) => {
   return [
     {
-      x: Math.round(x - width / 2 - 4),
+      x: Math.round(x - width / 2),
       y,
       id: `${id}_left`,
     },
     {
-      x: Math.round(x + width / 2 + 4),
+      x: Math.round(x + width / 2),
       y: Math.round(y - height / 6),
       id: `${id}_true`,
       text: 'true',
     },
     {
-      x: Math.round(x + width / 2 + 4),
+      x: Math.round(x + width / 2),
       y: Math.round(y + height / 6),
       id: `${id}_false`,
       text: 'false',

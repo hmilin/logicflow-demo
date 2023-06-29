@@ -43,7 +43,7 @@ class StartEventModel extends RectNodeModel {
     return [
       {
         // x 轴上偏移 size / 2
-        x: x + width / 2 + 8,
+        x: x + width / 2,
         y,
         id: `${id}_right`,
       },

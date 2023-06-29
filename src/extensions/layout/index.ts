@@ -43,7 +43,7 @@ export default class Layout {
   private initDagreGraph() {
     this.dagreGraph = new dagre.graphlib.Graph({ multigraph: true })
     this.dagreGraph.setDefaultEdgeLabel(() => ({}))
-    this.dagreGraph.setGraph({ rankdir: 'LR', marginx: 128, marginy: 40 })
+    this.dagreGraph.setGraph({ rankdir: 'LR', marginx: 48, marginy: 128 })
   }
 
   private updateLayoutElements() {

@@ -27,13 +27,13 @@ class ServiceTaskModel extends RectNodeModel {
     return [
       {
         // x 轴上偏移 size / 2
-        x: x - width / 2 - 4,
+        x: x - width / 2,
         y,
         id: `${id}_left`,
       },
       {
         // x 轴上偏移 size / 2
-        x: x + width / 2 + 4,
+        x: x + width / 2,
         y,
         id: `${id}_right`,
       },

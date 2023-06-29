@@ -18,7 +18,7 @@ export default class BaseCardView extends HtmlNode {
       text: getNodeText(props.model.getProperties()),
       type: props.model.getData().type,
       onEdit: () => {
-        props.graphModel.eventCenter.emit('custom:node-edit', this.props.model)
+        console.log('编辑节点')
       },
       onDelete: () => {
         props.graphModel.deleteNode(props.model.getData().id)

@@ -60,6 +60,7 @@ export enum StepTypes {
   End = '1',
   ServiceTask = '2',
   ExclusiveGateway = '3',
+  UserTask = '4',
   ScriptTask = '5',
   Flow = 'sequenceFlow',
 }
@@ -82,8 +83,12 @@ export const nodeSize: Record<StepTypes, { width: number; height: number }> = {
     height: 60,
   },
   [StepTypes.End]: {
-    width: 220,
-    height: 128,
+    width: 64,
+    height: 64,
+  },
+  [StepTypes.UserTask]: {
+    width: 280,
+    height: 148,
   },
   [StepTypes.ServiceTask]: {
     width: 280,

@@ -1,14 +1,12 @@
 import type LogicFlow from '@logicflow/core'
 import type { BaseNodeModel } from '@logicflow/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import type { NodeProperties } from '~/models/graph'
 import { StepTypes } from '~/extensions/bpmn/constant'
+import type { NodeProperties } from '~/models/graph'
 
 interface GraphState {
   /** 是否打开编辑节点的弹窗 */
   modal: boolean
-  /** 编辑模式 */
-  mode: 'api' | 'debug'
   /** 正在编辑的elementId */
   targetId: string | null
   /** 正在编辑的节点类型 */
@@ -26,7 +24,6 @@ interface GraphState {
 export const useGraphStore = defineStore('graph', {
   state: (): GraphState => ({
     modal: false,
-    mode: 'api',
     nodeType: '',
     targetModel: {},
     targetId: null,
@@ -35,7 +32,6 @@ export const useGraphStore = defineStore('graph', {
     change: false,
   }),
   getters: {
-    isDebug: (state) => state.mode === 'debug',
     /** 当前节点列表 */
     nodes: (state) => state.lfInstance?.getGraphRawData().nodes,
     apiNames: (state) =>
@@ -56,18 +52,11 @@ export const useGraphStore = defineStore('graph', {
         editMode,
       })
     },
-    debug() {
-      this.$patch({
-        mode: 'debug',
-      })
-    },
     saveModel(elementId: string, model: NodeProperties) {
       // 更新节点信息
       this.lfInstance?.setProperties(elementId, model)
       this.modal = false
-      setTimeout(() => {
-        this.resetTarget()
-      }, 300)
+      this.resetTarget()
       this.change = true
     },
     closeModal() {
@@ -76,9 +65,7 @@ export const useGraphStore = defineStore('graph', {
         this.lfInstance?.deleteElement(this.targetId)
       }
       this.modal = false
-      setTimeout(() => {
-        this.resetTarget()
-      }, 300)
+      this.resetTarget()
     },
     resetTarget() {
       this.$patch({
@@ -92,7 +79,7 @@ export const useGraphStore = defineStore('graph', {
     },
     saveGraph() {
       this.change = false
-    }
+    },
   },
 })
 

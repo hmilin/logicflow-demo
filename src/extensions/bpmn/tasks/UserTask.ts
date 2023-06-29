@@ -5,21 +5,21 @@ import BaseNodeDecorator from '../base/BpmnBaseNode'
 import BaseCardView from '../card/BaseCardView'
 import { StepTypes, nodeIDPrefixs, nodeSize } from '../constant'
 
-/** 数据处理节点 */
+/** api调用节点 */
 @BaseNodeDecorator()
-class ScriptTaskModel extends RectNodeModel {
-  static extendKey = 'ServiceTaskModel'
+class UserTaskModel extends RectNodeModel {
+  static extendKey = 'UserTaskModel'
   constructor(data: any, graphModel: GraphModel) {
     if (!data.id) {
-      data.id = `${nodeIDPrefixs[StepTypes.ScriptTask]}_${getBpmnId()}`
+      data.id = `${nodeIDPrefixs[StepTypes.UserTask]}_${getBpmnId()}`
     }
     super(data, graphModel)
     this.setIsShowAnchor()
   }
 
   setAttributes() {
-    this.width = nodeSize[StepTypes.ScriptTask].width
-    this.height = nodeSize[StepTypes.ScriptTask].height
+    this.width = nodeSize[StepTypes.UserTask].width
+    this.height = nodeSize[StepTypes.UserTask].height
   }
 
   getDefaultAnchor() {
@@ -41,15 +41,15 @@ class ScriptTaskModel extends RectNodeModel {
   }
 }
 
-class ScriptTaskView extends BaseCardView {
-  static extendKey = 'ServiceTaskNode'
+class UserTaskView extends BaseCardView {
+  static extendKey = 'UserTaskNode'
 }
 
-const ScriptTask = {
-  type: StepTypes.ScriptTask,
-  view: ScriptTaskView,
-  model: ScriptTaskModel,
+const UserTask = {
+  type: StepTypes.UserTask,
+  view: UserTaskView,
+  model: UserTaskModel,
 }
 
-export { ScriptTaskView, ScriptTaskModel }
-export default ScriptTask
+export { UserTaskModel, UserTaskView }
+export default UserTask

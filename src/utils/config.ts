@@ -1,30 +1,15 @@
 import type LogicFlow from '@logicflow/core'
-import type { BaseEdgeModel, Definition } from '@logicflow/core'
+import type { BaseEdgeModel, BaseNodeModel, Definition } from '@logicflow/core'
 import removeIconUrl from '~/assets/img/remove.svg?url'
-import { StepTypes } from '~/extensions/bpmn/constant'
 
 // 插件
-import { SelectionSelect } from '@logicflow/extension'
+import { Menu, SelectionSelect } from '@logicflow/extension'
 import { BpmnElement } from '~/extensions'
+import { StepTypes } from '~/extensions/bpmn/constant'
 import EdgeMenu from '~/extensions/edge-menu'
 import Layout from '~/extensions/layout'
 import MiniElement from '~/extensions/minielement'
 import { MiniMap } from '~/extensions/minimap'
-
-export const nodeModalComponent: Record<string, string> = {
-  [StepTypes.ScriptTask]: 'ScriptTask',
-  [StepTypes.ServiceTask]: 'ServiceTask',
-  [StepTypes.ExclusiveGateway]: 'ConditionTask',
-  [StepTypes.End]: 'EndEvent',
-}
-
-// 编辑框标题
-export const nodeModalTitle: Record<string, string> = {
-  [StepTypes.ScriptTask]: '数据处理节点',
-  [StepTypes.ServiceTask]: '编辑API调用节点',
-  [StepTypes.ExclusiveGateway]: '判断节点',
-  [StepTypes.End]: '结束节点',
-}
 
 export const lfConfig: Omit<Definition, 'container'> = {
   snapline: true,
@@ -42,6 +27,7 @@ export const lfConfig: Omit<Definition, 'container'> = {
     BpmnElement,
     SelectionSelect,
     Layout,
+    Menu,
     EdgeMenu,
     MiniMap,
   ],
@@ -49,7 +35,7 @@ export const lfConfig: Omit<Definition, 'container'> = {
     MiniMap: {
       width: 240,
       // 小地图会创建一个lf实例，disabledPlugins定义初始化lf时禁用的插件
-      disabledPlugins: ['BpmnElement', 'edgeMenu', 'layout', 'startAnchorMenu', 'snapshot'],
+      disabledPlugins: ['BpmnElement', 'menu', 'edgeMenu', 'layout', 'startAnchorMenu', 'snapshot'],
       // 自定义miniMap插件，只显示节点轮廓
       plugins: [MiniElement],
     },
@@ -57,6 +43,34 @@ export const lfConfig: Omit<Definition, 'container'> = {
 }
 
 export const setMenuConfig = (lf: LogicFlow) => {
+  const menu = [
+    {
+      text: '复制',
+      callback(node: BaseNodeModel) {
+        lf.cloneNode(node.id)
+      },
+    },
+    {
+      text: '删除',
+      callback(node: BaseNodeModel): void {
+        // node为该节点数据
+        lf.deleteNode(node.id)
+      },
+    },
+  ]
+  lf.setMenuConfig({
+    nodeMenu: [],
+    edgeMenu: [],
+    graphMenu: [], // 覆盖默认的边右键菜单，与false表现一样
+  })
+  lf.setMenuByType({
+    type: StepTypes.Start,
+    menu,
+  })
+  lf.setMenuByType({
+    type: StepTypes.End,
+    menu,
+  })
   lf.setEdgeMenuItems([
     {
       icon: removeIconUrl,
@@ -65,4 +79,32 @@ export const setMenuConfig = (lf: LogicFlow) => {
       },
     },
   ])
+}
+
+export const nodeDefaultValues = {
+  [StepTypes.Start]: {
+    name: '开始',
+    icon: 'icon-start',
+  },
+  [StepTypes.UserTask]: {
+    name: '用户任务',
+    icon: 'icon-user',
+  },
+  [StepTypes.ServiceTask]: {
+    name: '系统任务',
+    icon: 'icon-service',
+  },
+  [StepTypes.ScriptTask]: {
+    name: '数据处理',
+    icon: 'icon-db',
+  },
+  [StepTypes.ExclusiveGateway]: {
+    name: '条件判断',
+    icon: 'icon-condition',
+  },
+  [StepTypes.End]: {
+    name: '结束',
+    icon: 'icon-stop',
+  },
+  [StepTypes.Flow]: {},
 }

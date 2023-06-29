@@ -1,12 +1,30 @@
 <script lang="ts">
 import LogicFlow from '@logicflow/core'
 import { StepTypes } from '~/extensions/bpmn/constant'
-import { EndIcon, ExclusiveGatewayIcon, ScriptTaskIcon, ServiceTaskIcon } from './icons'
+import { nodeDefaultValues } from '~/utils/config'
+import {
+  StartIcon,
+  EndIcon,
+  ExclusiveGatewayIcon,
+  ScriptTaskIcon,
+  ServiceTaskIcon,
+  UserTaskIcon,
+} from './icons'
 
 const BpmnNodes = [
   {
+    type: StepTypes.Start,
+    text: '开始',
+    icon: StartIcon,
+  },
+  {
+    type: StepTypes.UserTask,
+    text: '用户任务',
+    icon: UserTaskIcon,
+  },
+  {
     type: StepTypes.ServiceTask,
-    text: 'api调用',
+    text: '系统任务',
     icon: ServiceTaskIcon,
   },
   {
@@ -40,7 +58,10 @@ export default {
       this.lf?.dnd.startDrag({
         type: item.type,
         text: '',
-        properties: {},
+        properties: {
+          ...nodeDefaultValues[item.type],
+          description: '节点内容...',
+        },
       })
     },
   },
@@ -65,9 +86,8 @@ export default {
   left: 24px;
   z-index: 101;
   display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 24px 8px;
+  gap: 16px;
+  padding: 8px 16px;
   text-align: center;
   background: rgb(255 255 255);
   border: 1px dashed rgb(0 0 0 / 15%);

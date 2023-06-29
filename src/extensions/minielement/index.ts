@@ -1,4 +1,11 @@
-import { EndEvent, ExclusiveGateway, ScriptTask, ServiceTask, StartEvent } from './elements'
+import {
+  EndEvent,
+  ExclusiveGateway,
+  ScriptTask,
+  ServiceTask,
+  StartEvent,
+  UserTask,
+} from './elements'
 
 const theme = {
   rect: {
@@ -18,6 +25,7 @@ class MiniElement {
     lf.register(ExclusiveGateway)
     lf.register(ServiceTask)
     lf.register(ScriptTask)
+    lf.register(UserTask)
   }
 }
 
