@@ -114,7 +114,7 @@ export const defaultNodeSize = {
 }
 
 /** 锚点和节点的距离 */
-export const anchorOffset = 4
+export const anchorOffset = 0
 export const anchorRadius = 4
 
 export const nodeIDPrefixs: Record<StepTypes, string> = {
