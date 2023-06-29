@@ -72,7 +72,6 @@ const config: UserConfigExport = {
       },
     },
   },
-  base: '/logicflow-demo',
 }
 
 export default config
