@@ -2,21 +2,15 @@ import type LogicFlow from '@logicflow/core'
 import type { EdgeConfig, Point } from '@logicflow/core'
 import type { graphlib } from 'dagre'
 import dagre from 'dagre'
+import { groupBy } from 'lodash'
 import { getEdgeCenter, shortPolyPoints } from '~/utils/algorithm'
-import {
-  StepTypes,
-  anchorOffset,
-  defaultNodeSize,
-  nodeIDPrefixs,
-  nodeSize,
-} from '../bpmn/constant'
+import { StepTypes, anchorOffset, defaultNodeSize, nodeIDPrefixs, nodeSize } from '../bpmn/constant'
 import { getGatewayAnchor } from '../bpmn/gateways/ExclusiveGateway'
 
 /** 自动布局插件 */
 export default class Layout {
   static pluginName = 'layout'
   // 算法库没有设置节点距离的参数，为了增大节点直接的距离，需要适当增加节点宽度，然后在线的起点和终点坐标抵消掉
-  extraSpace = 40
   offsetLeft = 236
   offsetTop = 140
   private lf: LogicFlow
@@ -42,20 +36,32 @@ export default class Layout {
   private initDagreGraph() {
     this.dagreGraph = new dagre.graphlib.Graph({ multigraph: true })
     this.dagreGraph.setDefaultEdgeLabel(() => ({}))
-    this.dagreGraph.setGraph({ rankdir: 'LR', marginx: 48, marginy: 128 })
+    this.dagreGraph.setGraph({ rankdir: 'LR', marginx: 48, marginy: 128, ranksep: 100 })
   }
 
   private updateLayoutElements() {
     const { nodes, edges } = this.lf.getGraphRawData()
+
     // 设置节点
     nodes.forEach((node) => {
       const t = node.type as StepTypes
       this.dagreGraph!.setNode(node.id!, {
-        width: (nodeSize[t]?.width || defaultNodeSize.width) + this.extraSpace,
+        width: nodeSize[t]?.width || defaultNodeSize.width,
         height: nodeSize[t]?.height || defaultNodeSize.height,
       })
     })
 
+    // 同一源节点下的连线分组
+    const sourceEdges = groupBy(edges, (edge) => edge.sourceNodeId)
+    const nodeOrders: Record<string, number> = {}
+    for (const edge in sourceEdges) {
+      sourceEdges[edge].sort((a, b) => a.startPoint!.y - b.startPoint!.y)
+      sourceEdges[edge].forEach((edge, index) => {
+        nodeOrders[edge.targetNodeId] = (nodeOrders[edge.targetNodeId] || 0) + 1 + index
+      })
+    }
+    // 连线的先后顺序会影响到同一层级节点的顺序，在设置edge之前先排序
+    edges.sort((a, b) => nodeOrders[a.targetNodeId] - nodeOrders[b.targetNodeId])
     edges.forEach((edge) => {
       const name = this.getEdgeName(edge)
       this.dagreGraph!.setEdge(
@@ -83,8 +89,8 @@ export default class Layout {
       const points = edgeWithPosition.points
       const pointsLength = points.length
       // 起点和终点算上锚点和节点之间的距离
-      points[0].x += anchorOffset - this.extraSpace / 2
-      points[pointsLength - 1].x -= anchorOffset - this.extraSpace / 2
+      points[0].x += anchorOffset
+      points[pointsLength - 1].x -= anchorOffset
       // 以条件节点开始的线需要重新计算起点
       if (edge.sourceNodeId?.startsWith(nodeIDPrefixs[StepTypes.ExclusiveGateway])) {
         const p = this.getGatewayPointStart(edge.sourceNodeId, edge.sourceAnchorId!)
@@ -95,8 +101,7 @@ export default class Layout {
       }
       // 当结束点被多次链接的时候，默认会铺开，所有结束节点都要重新计算位置
       const targetNodePosition = this.dagreGraph!.node(edge.targetNodeId)
-      points[pointsLength - 1].x =
-        targetNodePosition.x - (targetNodePosition.width - this.extraSpace) / 2
+      points[pointsLength - 1].x = targetNodePosition.x - targetNodePosition.width / 2
       points[pointsLength - 1].y = targetNodePosition.y
 
       edge.startPoint = points[0]
