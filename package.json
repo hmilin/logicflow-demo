@@ -30,8 +30,8 @@
   "dependencies": {
     "@ant-design/colors": "^7.0.0",
     "@ant-design/icons-vue": "^6.1.0",
-    "@logicflow/core": "^1.2.8",
-    "@logicflow/extension": "^1.2.8",
+    "@logicflow/core": "^1.2.15",
+    "@logicflow/extension": "^1.2.16",
     "@vueuse/core": "^10.1.2",
     "@vueuse/integrations": "^9.13.0",
     "ant-design-vue": "^3.2.16",

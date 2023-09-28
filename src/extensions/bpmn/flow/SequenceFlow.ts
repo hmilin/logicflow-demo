@@ -1,5 +1,8 @@
 import type { GraphModel } from '@logicflow/core'
-import { PolylineEdge, PolylineEdgeModel } from '@logicflow/core'
+import {
+  SmoothPolylineEdgeModel,
+  SmoothPolylineEdgeView,
+} from '~/extensions/smoothpolyline-edge/SmoothPolylineEdge'
 import { getBpmnId } from '../../bpmnIds'
 import { StepTypes, nodeIDPrefixs } from '../constant'
 
@@ -7,7 +10,7 @@ const strokeDefault = '#D0D0D0'
 const strokeActive = '#D1BDFF'
 
 /** 流对象，连线关系 */
-class SequenceFlowModel extends PolylineEdgeModel {
+class SequenceFlowModel extends SmoothPolylineEdgeModel {
   static extendKey = 'SequenceFlowModel'
   constructor(data: any, graphModel: GraphModel) {
     if (!data.id) {
@@ -22,7 +25,7 @@ class SequenceFlowModel extends PolylineEdgeModel {
       style.strokeWidth = 3
       style.stroke = strokeActive
     } else {
-      style.strokeWidth = 1
+      style.strokeWidth = 2
       style.stroke = strokeDefault
     }
     style.cursor = 'pointer'
@@ -70,8 +73,7 @@ class SequenceFlowModel extends PolylineEdgeModel {
   }
 }
 
-class SequenceFlowView extends PolylineEdge {
-  static extendKey = 'BezierEdge'
+class SequenceFlowView extends SmoothPolylineEdgeView {
   constructor() {
     super()
   }
