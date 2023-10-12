@@ -42,15 +42,6 @@ export default class Layout {
   private updateLayoutElements() {
     const { nodes, edges } = this.lf.getGraphRawData()
 
-    // 设置节点
-    nodes.forEach((node) => {
-      const t = node.type as StepTypes
-      this.dagreGraph!.setNode(node.id!, {
-        width: nodeSize[t]?.width || defaultNodeSize.width,
-        height: nodeSize[t]?.height || defaultNodeSize.height,
-      })
-    })
-
     // 同一源节点下的连线分组
     const sourceEdges = groupBy(edges, (edge) => edge.sourceNodeId)
     const nodeOrders: Record<string, number> = {}
@@ -60,8 +51,18 @@ export default class Layout {
         nodeOrders[edge.targetNodeId] = (nodeOrders[edge.targetNodeId] || 0) + 1 + index
       })
     }
-    // 连线的先后顺序会影响到同一层级节点的顺序，在设置edge之前先排序
-    edges.sort((a, b) => nodeOrders[a.targetNodeId] - nodeOrders[b.targetNodeId])
+
+    // dagre算法中同一层级节点的order是根据node的先后顺序确定，所以手动排下序
+    nodes.sort((a, b) => nodeOrders[a.id!] - nodeOrders[b.id!])
+    // 设置节点
+    nodes.forEach((node) => {
+      const t = node.type as StepTypes
+      this.dagreGraph!.setNode(node.id!, {
+        width: nodeSize[t]?.width || defaultNodeSize.width,
+        height: nodeSize[t]?.height || defaultNodeSize.height,
+      })
+    })
+
     edges.forEach((edge) => {
       const name = this.getEdgeName(edge)
       this.dagreGraph!.setEdge(
