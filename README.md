@@ -10,7 +10,7 @@
 
 - [x] 基于 dagre 实现自动布局
 - [x] 自定义 Vue 组件作为节点
-- [x] 实现 [react-flow](https://reactflow.dev/docs/api/plugin-components/minimap/) 风格的轮
+- [x] 实现 [react-flow](https://reactflow.dev/docs/api/plugin-components/minimap/) 风格的小地图
 - [x] 自定义连线规则
 - [x] 基于`PolylineEdge`实现转折点带弧度的折线
 
